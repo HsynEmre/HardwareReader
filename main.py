@@ -122,35 +122,41 @@ lbl_title = ctk.CTkLabel(
     master=gpu_frame, text="GPU", font=("Arial", 28, "bold")
 )
 lbl_title.pack(anchor="w", padx=20, pady=20)
-gpu_name_label = ctk.CTkLabel(
-    master=gpu_frame,
-    text=f"GPU: {gpu.name}",
-    text_color="#9ca3af"
-)
-gpu_name_label.pack(anchor="w", pady=5,padx=15)
-gpu_usage_label = ctk.CTkLabel(
-    gpu_frame,
-    text=f"GPU Ölçüşüyor",
-    text_color="#9ca3af"
-)
-gpu_usage_label.pack(anchor="w", pady=5,padx=15)
-gpu_temperature_label = ctk.CTkLabel(
-    gpu_frame,
-    text=f"GPU Sıcaklığı",
-    text_color="#9ca3af"
-)
-gpu_temperature_label.pack(anchor="w", pady=5,padx=15)
+if not gpus:
+    print("Gpubulunmamaktadır")
+else:
+    gpu_name_label = ctk.CTkLabel(
+        master=gpu_frame,
+        text=f"GPU: {gpu.name}",
+        text_color="#9ca3af"
+    )
+    gpu_name_label.pack(anchor="w", pady=5, padx=15)
+    gpu_usage_label = ctk.CTkLabel(
+        gpu_frame,
+        text=f"GPU Ölçüşüyor",
+        text_color="#9ca3af"
+    )
+    gpu_usage_label.pack(anchor="w", pady=5, padx=15)
+    gpu_temperature_label = ctk.CTkLabel(
+        gpu_frame,
+        text=f"GPU Sıcaklığı",
+        text_color="#9ca3af"
+    )
+    gpu_temperature_label.pack(anchor="w", pady=5, padx=15)
 def gpuInfo():
     gpus = GPUtil.getGPUs()
     gpu = gpus[0]
-    usage = f"{gpu.load * 100:.1f}"
-    temperature = gpu.temperature
-    gpu_usage_label.configure(
-        text=f"GPU kullanımı: {usage}",
-    )
-    gpu_temperature_label.configure(
-        text=f"Gpu Sıcaklığı : {temperature} °C"
-    )
+    if not gpus:
+        print("YOK")
+    else:
+        usage = f"{gpu.load * 100:.1f}"
+        temperature = gpu.temperature
+        gpu_usage_label.configure(
+            text=f"GPU kullanımı: {usage}",
+        )
+        gpu_temperature_label.configure(
+            text=f"Gpu Sıcaklığı : {temperature} °C"
+        )
 
     window.after(1000, gpuInfo)
 #Disk bilgileri
